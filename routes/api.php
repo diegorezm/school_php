@@ -1,16 +1,16 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CourseController;
 use App\Http\Controllers\Api\V1\StudentController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 // /api/v1
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\Api\V1'], function() {
-    Route::apiResource('courses', CourseController::class);
-    Route::apiResource('students', StudentController::class);
+    Route::apiResource('courses', CourseController::class)->middleware('auth:sanctum');
+    Route::apiResource('students', StudentController::class)->middleware('auth:sanctum');
+    Route::group(['prefix' => 'auth'], function() {
+        Route::post("/login", [AuthController::class, "login"]);
+        Route::post("/register", [AuthController::class, "register"])->middleware('auth:sanctum');
+  });
 });

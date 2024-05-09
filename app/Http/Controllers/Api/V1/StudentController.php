@@ -4,7 +4,6 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreStudentBulkRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Resources\V1\StudentCollection;
@@ -13,8 +12,6 @@ use App\Models\Student;
 use App\Filters\V1\StudentFilter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class StudentController extends Controller
 {
@@ -57,8 +54,9 @@ class StudentController extends Controller
      * Remove the specified resource from storage.
      * @return void
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student): void
     {
         $student->delete();
     }
+
 }
