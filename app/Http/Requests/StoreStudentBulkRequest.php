@@ -28,4 +28,13 @@ class StoreStudentBulkRequest extends FormRequest
             '*.courseId' => ['required', 'integer', 'exists:courses,id'],
         ];
     }
+    protected function prepareForValidation(): void
+    {
+        $data = [];
+        foreach ($this->toArray() as $obj) {
+            $obj["course_id"] = $obj["courseId"] ?? null;
+            $data = $obj;
+        }
+        $this->merge($data);
+    }
 }

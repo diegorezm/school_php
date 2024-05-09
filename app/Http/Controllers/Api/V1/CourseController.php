@@ -42,14 +42,6 @@ class CourseController extends Controller
     }
 
     /**
-     * Store a array of students
-     */
-    public function bulkStore()
-    {
-
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Course $course): CourseResource
