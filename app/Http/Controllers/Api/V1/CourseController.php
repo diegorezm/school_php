@@ -34,19 +34,19 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCourseRequest $request): CourseResource
     {
         return new CourseResource(Course::query()->create($request->all()));
+    }
+
+    /**
+     * Store a array of students
+     */
+    public function bulkStore()
+    {
+
     }
 
     /**
@@ -58,26 +58,19 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Course $course)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(UpdateCourseRequest $request, Course $course): CourseResource
     {
-        //
+        return new CourseResource($course->update($request->all()));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Course $course): void
     {
-        //
+        $course->delete();
     }
+
 }

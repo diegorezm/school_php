@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreStudentBulkRequest;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Resources\V1\StudentCollection;
@@ -12,6 +13,8 @@ use App\Models\Student;
 use App\Filters\V1\StudentFilter;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class StudentController extends Controller
 {
@@ -24,52 +27,38 @@ class StudentController extends Controller
         $filterItems = $filter->transform($request);
         return new StudentCollection(Student::query()->where($filterItems)->paginate());
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreStudentRequest $request): StudentResource
     {
-        return new StudentResource(Student::query()->create($request->all()));
+        $student = Student::query()->create($request->all());
+        return new StudentResource($student);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function show(Student $student): StudentResource
     {
         return new StudentResource($student);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudentRequest $request, Student $student)
+    public function update(UpdateStudentRequest $request, Student $student): StudentResource
     {
-        //
+        $student->update($request->all());
+        return new StudentResource($student);
     }
 
     /**
      * Remove the specified resource from storage.
+     * @return void
      */
     public function destroy(Student $student)
     {
-        //
+        $student->delete();
     }
 }
