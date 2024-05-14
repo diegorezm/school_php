@@ -10,7 +10,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->count(1)->create();
+        User::factory()->create([
+            "email" => "diego@email.com",
+            "password" => Hash::make("1234")
+        ]);
         $this->call([CourseSeeder::class]);
     }
 }
