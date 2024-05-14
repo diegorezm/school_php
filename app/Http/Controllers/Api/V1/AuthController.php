@@ -22,10 +22,13 @@ class AuthController extends Controller
                 $user = $request->user();
                 $tokenResult = $user->createToken('Personal Access Token', ['*'], now()->addDay());
                 return response()->json([
-                    'token' =>$tokenResult,
+                    'token' => $tokenResult,
+                    'user' => $user
                 ]);
             }else {
-                return response("Not Authorized",status: 403);
+                return response()->json([
+                    'message' => 'Not authorized.'
+                ], 401);
             }
      }
 
@@ -38,6 +41,29 @@ class AuthController extends Controller
         ]);
         $user =  User::query()->create($request->all());
         return response()->json([$user], 201);
+    }
+
+    public function whoami(Request $request): JsonResponse
+    {
+        if(auth()->check()){
+            $user = auth()->user();
+            return response()->json([
+                'user' => $user
+            ]);
+        }
+        return response()->json([
+                'message' => "Invalid token or user not found."
+        ], 401);
+    }
+
+    public function verify(Request $request): JsonResponse
+    {
+        if(auth()->check()){
+            return response()->json(null, 200);
+        }
+        return response()->json([
+                'message' => "Invalid token or user not found."
+        ], 401);
     }
 
 }
