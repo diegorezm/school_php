@@ -38,4 +38,4 @@
 | Column Name | Filter Operators | Description |
 |---|---|---|
 | name | `eq` | Filters the course name. |
- - Exemple: ```GET /api/v1/courses?name[eq]=Mario```
+ - Exemple: ```GET /api/v1/courses?name[eq]=Computer Science```
